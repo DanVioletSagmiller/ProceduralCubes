@@ -119,4 +119,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Position: {x: 0, y: 0, z: 0}
-  PrimaryCubeType: 1
+  Type: 1
+  Id: 1
+  ImportantReference: {fileID: 0}

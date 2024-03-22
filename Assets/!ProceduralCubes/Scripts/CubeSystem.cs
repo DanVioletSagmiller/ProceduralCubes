@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,12 +13,18 @@ public class CubeSystem : MonoBehaviour
     private void Awake()
     {
         foreach(Cube cube in FindObjectsOfType<Cube>())
-        {
             Cubes.Add(cube.Position, cube);
-        }
     }
 
     public bool HasPosition(Vector3Int position) => Cubes.ContainsKey(position);
 
     public void AddCube(Cube cube) => Cubes.Add(cube.Position, cube);
+
+    public Cube GetCube(Vector3Int offset)
+    {
+        if (HasPosition(offset)) return Cubes[offset];
+        return null;
+    }
+
+    public void Remove(Vector3Int pos) => Cubes.Remove(pos);
 }
