@@ -4,7 +4,6 @@ using UnityEngine;
 public class GroundBot : MonoBehaviour
 {    
     public Cube CubePrefab;
-    public Vector3Int Position = new Vector3Int(0, 0, 0);
     private List<Vector3Int> positions = new List<Vector3Int>(capacity: 8);
 
     public float CreateSpeed = 0.5f;
@@ -44,8 +43,8 @@ public class GroundBot : MonoBehaviour
             Create();
         }
 
-        target = Vector3.Lerp(target, Position, CameraCusioning * Time.deltaTime);
-        Camera.main.transform.LookAt(target);
+        target = Vector3.Lerp(target, CameraTracking.Instance.Target, CameraCusioning * Time.deltaTime);
+        //Camera.main.transform.LookAt(target);
     }
 
     private void Move()
@@ -53,14 +52,14 @@ public class GroundBot : MonoBehaviour
         positions.Clear();
         foreach (Vector3Int offset in HorizontalSlice)
         {
-            bool cubeExists = CubeSystem.Instance.HasPosition(Position + offset);
-            if (cubeExists) positions.Add(Position + offset);
+            bool cubeExists = CubeSystem.Instance.HasPosition(CameraTracking.Instance.Target + offset);
+            if (cubeExists) positions.Add(CameraTracking.Instance.Target + offset);
         }
 
         if (positions.Count == 0) return;
 
         int randomIndex = UnityEngine.Random.Range(0, positions.Count);
-        Position = positions[randomIndex];
+        CameraTracking.Instance.Target = positions[randomIndex];
     }
 
     private void Create()
@@ -68,17 +67,17 @@ public class GroundBot : MonoBehaviour
         positions.Clear();
         foreach (Vector3Int offset in HorizontalSlice)
         {
-            bool isNull = !CubeSystem.Instance.HasPosition(Position + offset);
-            if (isNull) positions.Add(Position + offset);
+            bool isNull = !CubeSystem.Instance.HasPosition(CameraTracking.Instance.Target + offset);
+            if (isNull) positions.Add(CameraTracking.Instance.Target + offset);
         }
 
         if (positions.Count == 0) return;
 
         int randomIndex = UnityEngine.Random.Range(minInclusive: 0, positions.Count);
-        Position = positions[randomIndex];
+        CameraTracking.Instance.Target = positions[randomIndex];
 
-        Cube cube = Instantiate(CubePrefab, Position, Quaternion.identity);
-        cube.Position = Position;
+        Cube cube = Instantiate(CubePrefab, CameraTracking.Instance.Target, Quaternion.identity);
+        cube.Position = CameraTracking.Instance.Target;
         CubeSystem.Instance.AddCube(cube);
     }
 }

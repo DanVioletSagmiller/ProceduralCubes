@@ -8,8 +8,7 @@ public class ForestBot : MonoBehaviour
     public float ChanceToSpawnForest = 0.03f;
     public int ForestMinSize = 5;
     public int ForestMaxSize = 30;
-    public GroundBot GroundBot;
-    public bool IsBuilding = false;
+    private bool IsBuilding = false;
     public int LowTreeChance = -5;
 
     private void Update()
@@ -24,7 +23,7 @@ public class ForestBot : MonoBehaviour
 
     private bool HasMinimumSpaceForForest()
     {
-        foreach(var pos in InRadius(GroundBot.Position, ForestMinSize))
+        foreach(Vector3Int pos in InRadius(CameraTracking.Instance.Target, ForestMinSize))
         { 
             Cube c = CubeSystem.Instance.GetCube(pos);
             if (c == null || c.Id == 1 || c.Id == 2) continue;
@@ -36,7 +35,7 @@ public class ForestBot : MonoBehaviour
 
     private IEnumerator BuildForest()
     {
-        Vector3Int center = GroundBot.Position;
+        Vector3Int center = CameraTracking.Instance.Target;
         foreach(Vector3Int pos in InRadius(center, ForestMaxSize))
         { 
             ForestBlock forest = Instantiate(Prefab, pos, Quaternion.identity);
