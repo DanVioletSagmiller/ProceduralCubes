@@ -14,13 +14,14 @@ public class CameraTracking : MonoBehaviour
 
     public float TimeToLerpToTarget = .5f;
 
-    public float MinRotationTime = 1f;
-    public float MaxRotationTime = 5f;
+    public float MinRotationTime = 3f;
+    public float MaxRotationTime = 8f;
+    public AnimationCurve RotationStrengthCurve;
+
     private float OriginalRotation = 0f;
     private float TargetRotation = 0f;
     private float TimeForRotation = 0f;
     private float RotationCounter = 0f;
-    public AnimationCurve RotationStrengthCurve;
 
     private void Start()
     {

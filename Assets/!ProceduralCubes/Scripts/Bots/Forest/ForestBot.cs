@@ -37,15 +37,16 @@ public class ForestBot : MonoBehaviour
     {
         Vector3Int center = CameraTracking.Instance.Target;
         foreach(Vector3Int pos in InRadius(center, ForestMaxSize))
-        { 
+        {
+            Cube cube = CubeSystem.Instance.GetCube(pos);
+            CubeSystem.Instance.Remove(pos);
+            if (cube != null) Destroy(cube.gameObject);
+
             ForestBlock forest = Instantiate(Prefab, pos, Quaternion.identity);
             forest.SetTree(LowTreeChance);
 
-            Cube cube = forest.GetComponent<Cube>();
+            cube = forest.GetComponent<Cube>();
             cube.Position = pos;
-            if (CubeSystem.Instance.HasPosition(pos)) 
-                CubeSystem.Instance.Remove(pos);
-
             CubeSystem.Instance.AddCube(cube);
 
             yield return null;

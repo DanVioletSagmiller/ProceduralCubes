@@ -27,4 +27,10 @@ public class CubeSystem : MonoBehaviour
     }
 
     public void Remove(Vector3Int pos) => Cubes.Remove(pos);
+
+    internal void MoveCube(Vector3Int originalPosition, Vector3Int newPosition, Cube cube)
+    {
+        Cubes.Remove(originalPosition);
+        Cubes.Add(newPosition, cube);
+    }
 }
